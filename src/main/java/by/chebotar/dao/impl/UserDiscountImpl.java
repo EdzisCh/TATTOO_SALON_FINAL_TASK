@@ -2,14 +2,12 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
-import by.chebotar.dao.exception.PersistException;
 import by.chebotar.domain.UserDiscount;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class UserDiscountImpl extends AbstractJdbcDao<UserDiscount, Integer> implements GenericDao<UserDiscount,Integer> {
 
@@ -17,7 +15,8 @@ public class UserDiscountImpl extends AbstractJdbcDao<UserDiscount, Integer> imp
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user_discount WHERE id = ?";
     private static final String INSERT_NEW_QUERY = "INSERT INTO user_discount (discount_id, user_id, " +
             "tattoo_order_id) VALUES ( ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE user_discount SET discount_id=?, user_id=?, tattoo_order_id";
+    private static final String UPDATE_QUERY = "UPDATE user_discount SET discount_id=?, user_id=?, tattoo_order_id" +
+            " WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM user_description WHERE id=?";
 
     @Override
@@ -36,14 +35,21 @@ public class UserDiscountImpl extends AbstractJdbcDao<UserDiscount, Integer> imp
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, UserDiscount object) throws SQLException {
-        statement.setInt(1,object.getIdDiscount());
-        statement.setInt(2,object.getIdUser());
-        statement.setInt(3,object.getIdTattooOrder());
+        prepareStatement(statement, object);
     }
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, UserDiscount object) throws SQLException {
-        prepareStatementForInsert(statement,object);
+        prepareStatement(statement,object);
+        statement.setInt(4,object.getId());
+    }
+
+    @Override
+    protected void prepareStatement(PreparedStatement statement, UserDiscount object) throws SQLException {
+        int counter = 1;
+        statement.setInt(counter++,object.getIdDiscount());
+        statement.setInt(counter++,object.getIdUser());
+        statement.setInt(counter,object.getIdTattooOrder());
     }
 
     @Override
@@ -69,10 +75,5 @@ public class UserDiscountImpl extends AbstractJdbcDao<UserDiscount, Integer> imp
     @Override
     public String getSelectByPKQuery() {
         return SELECT_USER_BY_PK_QUERY;
-    }
-
-    @Override
-    public Optional<UserDiscount> create() throws PersistException {
-        return Optional.empty();
     }
 }

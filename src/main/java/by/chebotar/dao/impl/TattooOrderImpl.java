@@ -2,14 +2,12 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
-import by.chebotar.dao.exception.PersistException;
 import by.chebotar.domain.TattooOrder;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TattooOrderImpl extends AbstractJdbcDao<TattooOrder, Integer> implements GenericDao<TattooOrder,Integer> {
 
@@ -17,7 +15,7 @@ public class TattooOrderImpl extends AbstractJdbcDao<TattooOrder, Integer> imple
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM tattoo_order WHERE id = ?";
     private static final String INSERT_NEW_QUERY = "INSERT INTO tattoo_order (user_id, tattoo_id, price," +
             " date) VALUES ( ?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE tattoo_order SET user_id=?, tattoo_id=?, price=?, date=?";
+    private static final String UPDATE_QUERY = "UPDATE tattoo_order SET user_id=?, tattoo_id=?, price=?, date=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM tattoo_order WHERE id=?";
 
     @Override
@@ -37,15 +35,22 @@ public class TattooOrderImpl extends AbstractJdbcDao<TattooOrder, Integer> imple
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, TattooOrder object) throws SQLException {
-        statement.setInt(1,object.getIdUser());
-        statement.setInt(2, object.getIdTattoo());
-        statement.setFloat(3,object.getPrice());
-        statement.setDate(4,object.getDate());
+        prepareStatement(statement,object);
     }
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, TattooOrder object) throws SQLException {
-        prepareStatementForInsert(statement,object);
+        prepareStatement(statement,object);
+        statement.setInt(5,object.getId());
+    }
+
+    @Override
+    protected void prepareStatement(PreparedStatement statement, TattooOrder object) throws SQLException {
+        int counter = 1;
+        statement.setInt(counter++,object.getIdUser());
+        statement.setInt(counter++, object.getIdTattoo());
+        statement.setFloat(counter++,object.getPrice());
+        statement.setDate(counter,object.getDate());
     }
 
     @Override
@@ -71,10 +76,5 @@ public class TattooOrderImpl extends AbstractJdbcDao<TattooOrder, Integer> imple
     @Override
     public String getSelectByPKQuery() {
         return SELECT_USER_BY_PK_QUERY;
-    }
-
-    @Override
-    public Optional<TattooOrder> create() throws PersistException {
-        return Optional.empty();
     }
 }

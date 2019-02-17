@@ -35,10 +35,11 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final Lock lock = new ReentrantLock();
     private static final Lock instanceLock = new ReentrantLock();
     private Properties properties;
+    private String propertiesFile = "database.properties";
     private int createdConnectionCount = 0;
 
     private ConnectionPoolImpl() {
-        getPropertiesFile();
+        getPropertiesFromFile();
         this.driverClass = this.properties.getProperty("driverClass");
         this.jdbcUrl = this.properties.getProperty("jdbcUrl");
         this.user = this.properties.getProperty("user");
@@ -82,6 +83,18 @@ public class ConnectionPoolImpl implements ConnectionPool {
         }
     }
 
+    @Override
+    public void putBackConnection(Connection connection) {
+        try {
+            lock.lock();
+            pool.add(connection);
+        } finally {
+            semaphore.release();
+            lock.unlock();
+        }
+
+    }
+
     private InvocationHandler getHandler() throws SQLException {
         final ConnectionPoolImpl connectionPool = this;
         Connection connection = DriverManager.getConnection(jdbcUrl,user,password);
@@ -108,25 +121,14 @@ public class ConnectionPoolImpl implements ConnectionPool {
         }
     }
 
-    private void getPropertiesFile(){
+    private void getPropertiesFromFile(){
         try {
-            this.properties = PropertyConfiguration.configure("database.properties");
+            this.properties = new PropertyConfiguration().configure(this.propertiesFile);
         } catch (DaoException e) {
             LOGGER.error(e);
         }
     }
 
-    @Override
-    public void putBackConnection(Connection connection) {
-        try {
-            lock.lock();
-            pool.add(connection);
-        } finally {
-            semaphore.release();
-            lock.unlock();
-        }
-
-    }
 
     @Override
     public void destroyPool() throws ConnectionPoolException {

@@ -2,7 +2,6 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
-import by.chebotar.dao.exception.PersistException;
 import by.chebotar.domain.User;
 
 import java.sql.PreparedStatement;
@@ -10,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Example User DAO implementation
@@ -22,7 +20,7 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements Gener
     private static final String INSERT_NEW_QUERY = "INSERT INTO user (login, first_name, last_name," +
             " password, email) VALUES ( ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE user SET login=?, first_name=?, last_name=?, " +
-            "password=?, email=?";
+            "password=?, email=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM user WHERE id=?";
 
     @Override
@@ -42,16 +40,23 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements Gener
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, User object) throws SQLException {
-        statement.setString(1,object.getLogin());
-        statement.setString(2,object.getFirst_name());
-        statement.setString(3,object.getLast_name());
-        statement.setString(4,object.getPassword());
-        statement.setString(5,object.getEmail());
+        prepareStatement(statement, object);
     }
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, User object) throws SQLException {
-        prepareStatementForInsert(statement,object);
+        prepareStatement(statement,object);
+        statement.setInt(5,object.getId());
+    }
+
+    @Override
+    protected void prepareStatement(PreparedStatement statement, User object) throws SQLException {
+        int counter = 1;
+        statement.setString(counter++,object.getLogin());
+        statement.setString(counter++,object.getFirst_name());
+        statement.setString(counter++,object.getLast_name());
+        statement.setString(counter++,object.getPassword());
+        statement.setString(counter,object.getEmail());
     }
 
     @Override
@@ -77,10 +82,5 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements Gener
     @Override
     public String getSelectByPKQuery(){
         return SELECT_USER_BY_PK_QUERY;
-    }
-
-    @Override
-    public Optional<User> create() throws PersistException {
-        throw new UnsupportedOperationException();
     }
 }

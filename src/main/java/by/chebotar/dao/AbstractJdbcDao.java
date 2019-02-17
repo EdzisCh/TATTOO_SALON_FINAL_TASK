@@ -27,6 +27,8 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
 
     protected abstract void prepareStatementForUpdate(PreparedStatement statement, T object) throws SQLException;
 
+    protected abstract void prepareStatement(PreparedStatement statement, T object) throws SQLException;
+
     public abstract String getSelectQuery();
 
     public abstract String getCreateQuery();
@@ -66,7 +68,20 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
 
     @Override
     public Optional<T> persist(T object) throws PersistException {
-        throw new UnsupportedOperationException();
+        try(PreparedStatement statement = this.connection.prepareStatement(getCreateQuery(),Statement.RETURN_GENERATED_KEYS)) {
+            prepareStatementForInsert(statement, object);
+            statement.execute();
+            try(ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    PK id = (PK) new Integer(generatedKeys.getInt(1));
+                    object.setId(id);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new PersistException(EXCEPTION_MESSAGE, e);
+        }
+        return Optional.of(object);
     }
 
     @Override
@@ -89,5 +104,10 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
             LOGGER.error(e);
             throw new DaoException(EXCEPTION_MESSAGE,e);
         }
+    }
+
+    @Override
+    public Optional<T> create() throws PersistException {
+        throw new UnsupportedOperationException();
     }
 }

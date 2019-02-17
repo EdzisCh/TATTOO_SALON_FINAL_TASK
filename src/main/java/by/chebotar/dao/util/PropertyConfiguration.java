@@ -9,9 +9,9 @@ import java.util.Properties;
 
 public class PropertyConfiguration {
 
-    public static Properties configure(String filepath) throws DaoException {
+    public  Properties configure(String filepath) throws DaoException {
         Properties properties;
-        try (InputStream inputStream = new FileInputStream(filepath)) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filepath)) {
             properties = new Properties();
             properties.load(inputStream);
             return properties;
