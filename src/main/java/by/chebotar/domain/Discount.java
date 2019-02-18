@@ -50,4 +50,13 @@ public class Discount implements Identified<Integer>, Serializable {
     public int hashCode() {
         return Objects.hash(id, description, percents);
     }
+
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", percents=" + percents +
+                '}';
+    }
 }

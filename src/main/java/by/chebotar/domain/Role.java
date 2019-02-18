@@ -30,4 +30,12 @@ public enum Role implements Identified<Integer> {
     public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", idUser=" + idUser +
+                '}';
+    }
 }

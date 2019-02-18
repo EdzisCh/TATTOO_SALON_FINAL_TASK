@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.exception.ConnectionPoolException;
 import by.chebotar.domain.UserDiscount;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDiscountImpl extends AbstractJdbcDao<UserDiscount, Integer> implements GenericDao<UserDiscount,Integer> {
+public class UserDiscountDaoImpl extends AbstractJdbcDao<UserDiscount, Integer> implements GenericDao<UserDiscount,Integer> {
 
     private static final String SELECT_ALL_QUERY = "SELECT * FROM user_discount";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user_discount WHERE id = ?";
@@ -18,6 +19,7 @@ public class UserDiscountImpl extends AbstractJdbcDao<UserDiscount, Integer> imp
     private static final String UPDATE_QUERY = "UPDATE user_discount SET discount_id=?, user_id=?, tattoo_order_id" +
             " WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM user_description WHERE id=?";
+
 
     @Override
     protected List<UserDiscount> parseResultSet(ResultSet rs) throws SQLException {

@@ -7,7 +7,7 @@ import by.chebotar.dao.ConnectionPool;
 import by.chebotar.dao.ConnectionPoolFactory;
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.exception.DaoException;
-import by.chebotar.domain.User;
+import by.chebotar.domain.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -24,6 +24,7 @@ import java.util.function.Supplier;
  * Jdbc DAO Factory
  */
 public class JdbcDaoFactory implements DaoFactory, TransactionalDaoFactory<Connection> {
+
     private static JdbcDaoFactory instance;
     private static Lock instanceLock = new ReentrantLock();
     private Map<Class, Supplier<GenericDao>> creators = new HashMap<>();
@@ -54,6 +55,12 @@ public class JdbcDaoFactory implements DaoFactory, TransactionalDaoFactory<Conne
 
     private JdbcDaoFactory() {
         creators.put(User.class, UserDaoImpl::new);
+        creators.put(Role.class, RoleDaoImpl::new);
+        creators.put(Tattoo.class, TattooDaoImpl::new);
+        creators.put(TattooOrder.class, TattooOrderImpl::new);
+        creators.put(Discount.class, DiscountDaoImpl::new);
+        creators.put(UserDiscount.class, UserDiscountDaoImpl::new);
+        creators.put(UserFeedback.class, UserFeedbackDaoImpl::new);
     }
 
     public static JdbcDaoFactory getInstance() {

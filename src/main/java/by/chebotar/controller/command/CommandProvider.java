@@ -15,7 +15,7 @@ public class CommandProvider {
     }
 
     private CommandProvider() {
-        commandMap.put("CommandExample", new CommandExample());
+      //  commandMap.put("CommandExample", new CommandExample());
     }
 
     /**

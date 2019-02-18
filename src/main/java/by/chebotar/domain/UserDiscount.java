@@ -60,4 +60,14 @@ public class UserDiscount implements Identified<Integer>, Serializable {
     public int hashCode() {
         return Objects.hash(id, idDiscount, idUser, idTattooOrder);
     }
+
+    @Override
+    public String toString() {
+        return "UserDiscount{" +
+                "id=" + id +
+                ", idDiscount=" + idDiscount +
+                ", idUser=" + idUser +
+                ", idTattooOrder=" + idTattooOrder +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package by.chebotar.dao;
 
+import by.chebotar.dao.exception.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +21,10 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
     private static final Logger LOGGER = LogManager.getLogger(AbstractJdbcDao.class);
     private static final String EXCEPTION_MESSAGE = "Cannot prepare statement";
     protected Connection connection;
+
+    /*public AbstractJdbcDao() throws ConnectionPoolException {
+        connection = ConnectionPoolFactory.getInstance().getConnectionPool().retrieveConnection();
+    }*/
 
     protected abstract List<T> parseResultSet(ResultSet rs) throws SQLException;
 

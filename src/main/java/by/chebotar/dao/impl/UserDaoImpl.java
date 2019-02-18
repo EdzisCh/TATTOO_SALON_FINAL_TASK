@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.exception.ConnectionPoolException;
 import by.chebotar.domain.User;
 
 import java.sql.PreparedStatement;
@@ -22,6 +23,7 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements Gener
     private static final String UPDATE_QUERY = "UPDATE user SET login=?, first_name=?, last_name=?, " +
             "password=?, email=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM user WHERE id=?";
+
 
     @Override
     protected List<User> parseResultSet(ResultSet rs) throws SQLException {

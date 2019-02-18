@@ -34,6 +34,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final Semaphore semaphore;
     private final Lock lock = new ReentrantLock();
     private static final Lock instanceLock = new ReentrantLock();
+    private Connection connection;
     private Properties properties;
     private String propertiesFile = "database.properties";
     private int createdConnectionCount = 0;
@@ -77,7 +78,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
             return pool.poll();
         } catch (InterruptedException | SQLException e) {
             LOGGER.error(e);
-            throw new IllegalStateException();
+            throw new ConnectionPoolException("Exception in ConnectionPoolImpl",e);
         } finally {
             lock.unlock();
         }
@@ -97,7 +98,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 
     private InvocationHandler getHandler() throws SQLException {
         final ConnectionPoolImpl connectionPool = this;
-        Connection connection = DriverManager.getConnection(jdbcUrl,user,password);
+        connection = DriverManager.getConnection(jdbcUrl,user,password);
         return (proxy, method, args) -> {
             String methodName = method.getName();
             if(methodName.equals("close")){
@@ -132,6 +133,11 @@ public class ConnectionPoolImpl implements ConnectionPool {
 
     @Override
     public void destroyPool() throws ConnectionPoolException {
-        throw new UnsupportedOperationException();
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new ConnectionPoolException("Exception in ConnectionPoolImpl",e);
+        }
     }
 }

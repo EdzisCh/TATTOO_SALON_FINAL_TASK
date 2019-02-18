@@ -9,13 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserFeedbackImpl extends AbstractJdbcDao<UserFeedback, Integer> implements GenericDao<UserFeedback, Integer> {
+public class UserFeedbackDaoImpl extends AbstractJdbcDao<UserFeedback, Integer> implements GenericDao<UserFeedback, Integer> {
 
     private static final String SELECT_ALL_QUERY = "SELECT * FROM user_feedback";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user_feedback WHERE id = ?";
     private static final String INSERT_NEW_QUERY = "INSERT INTO user_feedback (feedback, user_id) VALUES ( ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE user_feedback SET feedback=?, user_id=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM user_feedback WHERE id=?";
+
 
     @Override
     protected List<UserFeedback> parseResultSet(ResultSet rs) throws SQLException {

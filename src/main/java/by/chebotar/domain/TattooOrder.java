@@ -71,4 +71,15 @@ public class TattooOrder implements Identified<Integer>, Serializable {
     public int hashCode() {
         return Objects.hash(id, idUser, idTattoo, price, date);
     }
+
+    @Override
+    public String toString() {
+        return "TattooOrder{" +
+                "id=" + id +
+                ", idUser=" + idUser +
+                ", idTattoo=" + idTattoo +
+                ", price=" + price +
+                ", date=" + date +
+                '}';
+    }
 }

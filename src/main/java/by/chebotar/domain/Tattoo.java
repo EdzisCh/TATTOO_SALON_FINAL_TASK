@@ -91,4 +91,17 @@ public class Tattoo implements Identified<Integer>, Serializable {
     public int hashCode() {
         return Objects.hash(id, description, price, dateOfCreation, idUser, idUserFeedback);
     }
+
+    @Override
+    public String toString() {
+        return "Tattoo{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", photo=" + photo +
+                ", price=" + price +
+                ", dateOfCreation=" + dateOfCreation +
+                ", idUser=" + idUser +
+                ", idUserFeedback=" + idUserFeedback +
+                '}';
+    }
 }

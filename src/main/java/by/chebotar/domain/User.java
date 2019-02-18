@@ -84,4 +84,16 @@ public class User implements Identified<Integer>, Serializable {
     public int hashCode() {
         return Objects.hash(id, login, password, firstName, lastName, email);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

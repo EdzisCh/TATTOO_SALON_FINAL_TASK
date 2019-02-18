@@ -50,4 +50,13 @@ public class UserFeedback implements Identified<Integer>, Serializable {
     public int hashCode() {
         return Objects.hash(id, idUser, feedback);
     }
+
+    @Override
+    public String toString() {
+        return "UserFeedback{" +
+                "id=" + id +
+                ", idUser=" + idUser +
+                ", feedback='" + feedback + '\'' +
+                '}';
+    }
 }

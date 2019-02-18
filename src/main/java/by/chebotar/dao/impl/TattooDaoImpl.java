@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.exception.ConnectionPoolException;
 import by.chebotar.domain.Tattoo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.exception.ConnectionPoolException;
 import by.chebotar.domain.TattooOrder;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ public class TattooOrderImpl extends AbstractJdbcDao<TattooOrder, Integer> imple
             " date) VALUES ( ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE tattoo_order SET user_id=?, tattoo_id=?, price=?, date=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM tattoo_order WHERE id=?";
+
 
     @Override
     protected List<TattooOrder> parseResultSet(ResultSet rs) throws SQLException {

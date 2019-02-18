@@ -7,16 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Command
- */
 @FunctionalInterface
-public interface Command {
+public interface TattooCommand extends Command {
 
-    /**
-     * Execute command
-     * @param request is used for extracting request parameters
-     * @return response content
-     */
+    @Override
     ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }
