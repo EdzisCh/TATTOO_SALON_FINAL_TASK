@@ -9,15 +9,23 @@ import by.chebotar.dao.exception.PersistException;
 import by.chebotar.domain.User;
 import by.chebotar.service.UserService;
 import by.chebotar.service.exception.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServlet;
+import java.io.IOException;
 
 /**
  * Example of user service implementation
  */
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+
     @Override
     public User signUp(User user) throws ServiceException {
         DaoFactory daoFactory = FactoryProducer.getDaoFactory(DaoFactoryType.JDBC);
-
         //provide your code here
 
         try {

@@ -8,6 +8,7 @@ import by.chebotar.domain.Discount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -18,13 +19,14 @@ public class DiscountDaoImplTest {
     private static final Logger LOGGER = LogManager.getLogger(DiscountDaoImplTest.class);
     private static GenericDao<Discount, Integer> discountDao;
 
+    @Ignore
     @Before
     public void init(){
-        try {
+        /*try {
             discountDao = FactoryProducer.getDaoFactory(DaoFactoryType.JDBC).getDao(DiscountDaoImpl.class);
         } catch (DaoException e) {
             LOGGER.error(e);
-        }
+        }*/
     }
 
     @Test

@@ -15,4 +15,8 @@ public enum  DaoFactoryType {
                 .filter( e -> e.name().equalsIgnoreCase(type))
                 .findFirst();
     }
+
+    public DaoFactory getDaoFactory(String name){
+        return null;
+    }
 }

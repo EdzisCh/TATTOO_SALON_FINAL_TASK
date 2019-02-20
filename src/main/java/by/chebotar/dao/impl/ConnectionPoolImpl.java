@@ -12,9 +12,8 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.Properties;
-import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,16 +27,14 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final String jdbcUrl;
     private final String user;
     private final String password;
-    private final int poolCapacity;
 
-    private final Queue<Connection> pool;
+    private final Deque<Connection> pool = new ConcurrentLinkedDeque<>();
+    private final List<Connection> connections = new ArrayList<>();
     private final Semaphore semaphore;
     private final Lock lock = new ReentrantLock();
     private static final Lock instanceLock = new ReentrantLock();
-    private Connection connection;
     private Properties properties;
     private String propertiesFile = "database.properties";
-    private int createdConnectionCount = 0;
 
     private ConnectionPoolImpl() {
         getPropertiesFromFile();
@@ -45,8 +42,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
         this.jdbcUrl = this.properties.getProperty("jdbcUrl");
         this.user = this.properties.getProperty("user");
         this.password = this.properties.getProperty("password");
-        this.poolCapacity = Integer.parseInt(this.properties.getProperty("poolCapacity"));
-        this.pool = new ArrayDeque<>(poolCapacity);
+        int poolCapacity = Integer.parseInt(this.properties.getProperty("poolCapacity"));
         this.semaphore = new Semaphore(poolCapacity);
         initDriver();
     }
@@ -68,46 +64,34 @@ public class ConnectionPoolImpl implements ConnectionPool {
     public Connection retrieveConnection() throws ConnectionPoolException {
         try{
             semaphore.acquire();
-            lock.lock();
-            if(createdConnectionCount < poolCapacity){
-                createdConnectionCount++;
-                InvocationHandler handler = this.getHandler();
-                Class[] classes = {Connection.class};
-                return (Connection) Proxy.newProxyInstance(null, classes, handler);
+            if(connections.isEmpty()){
+                return createConnection();
             }
-            return pool.poll();
+            return pool.pop();
         } catch (InterruptedException | SQLException e) {
             LOGGER.error(e);
-            throw new ConnectionPoolException("Exception in ConnectionPoolImpl",e);
-        } finally {
-            lock.unlock();
+            throw new ConnectionPoolException("Exception in ConnectionPoolImpl", e);
         }
     }
 
     @Override
     public void putBackConnection(Connection connection) {
-        try {
-            lock.lock();
-            pool.add(connection);
-        } finally {
-            semaphore.release();
-            lock.unlock();
-        }
-
+        pool.push(connection);
+        semaphore.release();
     }
 
-    private InvocationHandler getHandler() throws SQLException {
-        final ConnectionPoolImpl connectionPool = this;
-        connection = DriverManager.getConnection(jdbcUrl,user,password);
-        return (proxy, method, args) -> {
-            String methodName = method.getName();
-            if(methodName.equals("close")){
-                connectionPool.putBackConnection((Connection) proxy);
+    private Connection createConnection() throws SQLException {
+        Connection connection = DriverManager.getConnection(jdbcUrl,user,password);
+        connections.add(connection);
+        InvocationHandler handler = (proxy, method, args ) -> {
+            if (method.getName().equals("close")){
+                putBackConnection((Connection) proxy);
                 return null;
-            } else {
-                return method.invoke(connection,args);
             }
+            return method.invoke(connection,args);
         };
+        return (Connection) Proxy.newProxyInstance(connection.getClass().getClassLoader(),
+                connection.getClass().getInterfaces(), handler);
     }
 
     private void initDriver(){
@@ -134,7 +118,9 @@ public class ConnectionPoolImpl implements ConnectionPool {
     @Override
     public void destroyPool() throws ConnectionPoolException {
         try {
-            connection.close();
+            for (Connection currentConnection : connections) {
+                currentConnection.close();
+            }
         } catch (SQLException e) {
             LOGGER.error(e);
             throw new ConnectionPoolException("Exception in ConnectionPoolImpl",e);

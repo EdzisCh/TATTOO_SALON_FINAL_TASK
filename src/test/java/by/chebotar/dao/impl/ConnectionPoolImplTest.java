@@ -2,7 +2,6 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.ConnectionPool;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -22,9 +21,8 @@ import java.util.stream.IntStream;
 public class ConnectionPoolImplTest {
 
     private static final int N_THREADS = 80;
-    private static final int POOL_CAPACITY = 40;
+    private static final int POOL_CAPACITY = 20;
 
-    @Ignore
     @Test
     public void shouldGetConnection() throws InterruptedException {
         ConnectionPool connectionPool = Mockito.spy(ConnectionPoolImpl.getInstance());
@@ -38,7 +36,7 @@ public class ConnectionPoolImplTest {
                 int hashCode = connection.hashCode();
                 hashCodes.add(hashCode);
             } catch (Exception e) {
-
+                throw new RuntimeException();
             }
         }));
 

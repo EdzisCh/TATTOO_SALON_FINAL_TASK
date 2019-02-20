@@ -20,11 +20,7 @@ public class UserFeedbackDaoImplTest {
 
     @Before
     public void init(){
-        try {
-            userFeedback = FactoryProducer.getDaoFactory(DaoFactoryType.JDBC).getDao(UserFeedbackDaoImpl.class);
-        } catch (DaoException e) {
-            LOGGER.error(e);
-        }
+
     }
 
     @Test
