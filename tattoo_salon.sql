@@ -97,3 +97,4 @@ CREATE TABLE IF NOT EXISTS Tattoo_salon.role(
       REFERENCES Tattoo_salon.user (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE);
+

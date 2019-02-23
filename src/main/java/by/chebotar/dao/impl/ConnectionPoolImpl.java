@@ -28,8 +28,8 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final String user;
     private final String password;
 
-    private final Deque<Connection> pool = new ConcurrentLinkedDeque<>();
-    private final List<Connection> connections = new ArrayList<>();
+    private final Deque<Connection> pool;
+    private final List<Connection> connections ;
     private final Semaphore semaphore;
     private final Lock lock = new ReentrantLock();
     private static final Lock instanceLock = new ReentrantLock();
@@ -44,6 +44,8 @@ public class ConnectionPoolImpl implements ConnectionPool {
         this.password = this.properties.getProperty("password");
         int poolCapacity = Integer.parseInt(this.properties.getProperty("poolCapacity"));
         this.semaphore = new Semaphore(poolCapacity);
+        this.pool = new ConcurrentLinkedDeque<>();
+        connections = new ArrayList<>();
         initDriver();
     }
 

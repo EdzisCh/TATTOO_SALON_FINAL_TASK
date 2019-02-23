@@ -1,5 +1,6 @@
 package by.chebotar.service;
 
+import by.chebotar.service.exception.ServiceException;
 import by.chebotar.service.impl.UserServiceImpl;
 
 /**
@@ -12,7 +13,7 @@ public class ServiceFactory {
         return instance;
     }
 
-    public UserService getUserService() {
+    public UserService getUserService() throws ServiceException {
         return new UserServiceImpl();
     }
 }

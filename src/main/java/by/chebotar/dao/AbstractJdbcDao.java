@@ -1,6 +1,5 @@
 package by.chebotar.dao;
 
-import by.chebotar.dao.exception.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,7 +8,6 @@ import by.chebotar.dao.exception.PersistException;
 
 import java.sql.*;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Abstract JDBC DAO
@@ -21,10 +19,6 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
     private static final Logger LOGGER = LogManager.getLogger(AbstractJdbcDao.class);
     private static final String EXCEPTION_MESSAGE = "Cannot prepare statement";
     protected Connection connection;
-
-    /*public AbstractJdbcDao() throws ConnectionPoolException {
-        connection = ConnectionPoolFactory.getInstance().getConnectionPool().retrieveConnection();
-    }*/
 
     protected abstract List<T> parseResultSet(ResultSet rs) throws SQLException;
 
@@ -45,26 +39,22 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
     public abstract String getSelectByPKQuery();
 
     @Override
-    public Optional<T> getByPK(PK key) throws DaoException {
+    @AutoConnection
+    public T getByPK(PK key) throws DaoException {
 
-        try(PreparedStatement statement = this.connection.prepareStatement(getSelectByPKQuery())) {
-            statement.setInt(1, (Integer) key);
-            try (ResultSet resultSet = statement.executeQuery()){
-                List<T> list = parseResultSet(resultSet);
-                return !list.isEmpty() ? Optional.of(list.get((Integer) key)) : Optional.empty();
-            }
+        try (PreparedStatement statement = connection.prepareStatement(getSelectByPKQuery())){
+            statement.setInt(1,(Integer) key);
+            return parseResultSet(statement.executeQuery()).get(0);
         } catch (SQLException e) {
-            LOGGER.error(e);
-            throw new DaoException(EXCEPTION_MESSAGE,e);
+            throw new DaoException(e);
         }
     }
 
     @Override
+    @AutoConnection
     public List<T> getAll() throws DaoException {
         try(PreparedStatement statement  = this.connection.prepareStatement(getSelectQuery())) {
-            try(ResultSet resultSet = statement.executeQuery()){
-                return parseResultSet(resultSet);
-            }
+            return parseResultSet(statement.executeQuery());
         } catch (SQLException e) {
             LOGGER.error(e);
             throw new DaoException(EXCEPTION_MESSAGE, e);
@@ -72,24 +62,29 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
     }
 
     @Override
-    public Optional<T> persist(T object) throws PersistException {
-        try(PreparedStatement statement = this.connection.prepareStatement(getCreateQuery(),Statement.RETURN_GENERATED_KEYS)) {
+    @AutoConnection
+    public T persist(T object) throws PersistException {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(getCreateQuery(), Statement.RETURN_GENERATED_KEYS)) {
             prepareStatementForInsert(statement, object);
-            statement.execute();
-            try(ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (statement.executeUpdate() < 1) {
+                throw new PersistException("Cannot insert");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    PK id = (PK) new Integer(generatedKeys.getInt(1));
-                    object.setId(id);
+                    object.setId(generatedKeys.getInt(1));
+                    return object;
+                } else {
+                    throw new PersistException("No Id obtained.");
                 }
             }
         } catch (SQLException e) {
-            LOGGER.error(e);
-            throw new PersistException(EXCEPTION_MESSAGE, e);
+            throw new PersistException(EXCEPTION_MESSAGE,e);
         }
-        return Optional.of(object);
     }
 
     @Override
+    @AutoConnection
     public void update(T object) throws DaoException {
         try(PreparedStatement statement = this.connection.prepareStatement(getUpdateQuery())) {
             prepareStatementForUpdate(statement, object);
@@ -101,6 +96,7 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
     }
 
     @Override
+    @AutoConnection
     public void delete(T object) throws DaoException {
         try(PreparedStatement statement = this.connection.prepareStatement(getDeleteQuery())) {
             statement.setInt(1,(Integer) object.getId());
@@ -111,8 +107,4 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Numbe
         }
     }
 
-    @Override
-    public Optional<T> create() throws PersistException {
-        throw new UnsupportedOperationException();
-    }
 }

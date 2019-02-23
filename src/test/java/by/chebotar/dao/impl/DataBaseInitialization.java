@@ -25,6 +25,7 @@ public class DataBaseInitialization {
             Statement statement = connection.createStatement();
             statement.execute(script);
             statement.close();
+            isCreate = true;
         } catch (SQLException | ConnectionPoolException | IOException e) {
             e.printStackTrace();
         }

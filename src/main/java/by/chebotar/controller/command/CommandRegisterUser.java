@@ -7,11 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Example of the command implementation
- */
-public class ViewTattooDetail implements TattooCommand {
-
+public class CommandRegisterUser implements Command {
     @Override
     public ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         return null;

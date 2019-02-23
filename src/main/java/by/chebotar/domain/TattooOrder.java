@@ -19,7 +19,7 @@ public class TattooOrder implements Identified<Integer>, Serializable {
     }
 
     @Override
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

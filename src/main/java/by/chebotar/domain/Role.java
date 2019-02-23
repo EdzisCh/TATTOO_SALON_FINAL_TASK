@@ -19,7 +19,7 @@ public enum Role implements Identified<Integer> {
         return null;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

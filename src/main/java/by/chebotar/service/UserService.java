@@ -16,6 +16,9 @@ public interface UserService {
      */
     User signUp(User user) throws ServiceException;
 
-    // Provide your code here
+    User register(User user);
 
+    User getById(int id);
+
+    void deleteUser(User user);
 }
