@@ -17,7 +17,6 @@ import org.junit.runners.JUnit4;
 import java.sql.*;
 import java.util.Optional;
 
-
 @RunWith(JUnit4.class)
 public class UserDaoImplTest {
 
@@ -34,7 +33,7 @@ public class UserDaoImplTest {
             abstractJdbcDao = (AbstractJdbcDao) JdbcDaoFactory.getInstance().getTransactionalDao(User.class);
             userDao = JdbcDaoFactory.getInstance().getDao(User.class);
             user = new User();
-            user.setId(1);
+            user.setId(3);
             user.setFirst_name("name");
             user.setLast_name("surname");
             user.setLogin("login");

@@ -62,6 +62,12 @@ public class JdbcDaoFactory implements DaoFactory, TransactionalDaoFactory<Conne
 
     private JdbcDaoFactory() {
         creators.put(User.class, UserDaoImpl::new);
+        creators.put(Discount.class, DiscountDaoImpl::new);
+        creators.put(Role.class, RoleDaoImpl::new);
+        creators.put(Tattoo.class,TattooDaoImpl::new);
+        creators.put(TattooOrder.class, TattooOrderImpl::new);
+        creators.put(UserDiscount.class, UserDiscountDaoImpl::new);
+        creators.put(UserFeedback.class, UserFeedbackDaoImpl::new);
     }
 
     public static JdbcDaoFactory getInstance() {

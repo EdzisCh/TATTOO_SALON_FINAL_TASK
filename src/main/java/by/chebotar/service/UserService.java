@@ -16,9 +16,11 @@ public interface UserService {
      */
     User signUp(User user) throws ServiceException;
 
-    User register(User user);
+    User register(User user) throws ServiceException;
 
-    User getById(int id);
+    User getById(int id) throws ServiceException;
 
-    void deleteUser(User user);
+    User getByLogin(String login) throws ServiceException;
+
+    void deleteUser(User user) throws ServiceException;
 }

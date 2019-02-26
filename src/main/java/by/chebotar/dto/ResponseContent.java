@@ -8,5 +8,7 @@ import by.chebotar.controller.command.Router;
 public class ResponseContent {
     private Router router;
 
-    //Provide your code here
+    public Router getRouter() {
+        return router;
+    }
 }

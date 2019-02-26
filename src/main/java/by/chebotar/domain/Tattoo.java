@@ -9,8 +9,7 @@ public class Tattoo implements Identified<Integer>, Serializable {
 
     private int id;
     private String description;
-    /* Need to clarify*/
-    private int photo;
+    private String photo;
     private float price;
     private Date dateOfCreation;
     private int idUser;
@@ -33,11 +32,11 @@ public class Tattoo implements Identified<Integer>, Serializable {
         this.description = description;
     }
 
-    public int getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(int photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

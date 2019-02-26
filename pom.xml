@@ -10,7 +10,6 @@
   <packaging>war</packaging>
 
   <name>Tattoo-salon</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://www.besttattoo.com</url>
 
   <properties>

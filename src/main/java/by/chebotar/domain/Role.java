@@ -16,7 +16,7 @@ public enum Role implements Identified<Integer> {
 
     @Override
     public Integer getId() {
-        return null;
+        return id;
     }
 
     public void setId(int id) {

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(/* Provide your code here **/)
+@WebFilter(urlPatterns = "/ ")
 public class AuthenticationFilter implements Filter {
 
     @Override
@@ -24,9 +24,8 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         HttpServletResponse httpServletResponse = (HttpServletResponse)response;
 
-        //Provide your code here
 
-        //Don't forget to invoke this method
+
         chain.doFilter(request, response);
     }
 
