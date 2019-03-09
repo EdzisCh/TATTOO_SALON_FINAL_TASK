@@ -8,6 +8,7 @@ import java.util.Optional;
  * Cookie finder
  */
 public final class CookieFinder {
+
     private CookieFinder() {}
 
     public static Optional<String> getValueByName(String cookieName, Cookie[] cookies) {

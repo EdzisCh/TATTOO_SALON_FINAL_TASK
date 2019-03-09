@@ -72,14 +72,14 @@
   </dependencies>
 
   <build>
-    <finalName>web-project-sample</finalName>
+    <finalName>Tattoo-Salon</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
           <artifactId>tomcat7-maven-plugin</artifactId>
           <configuration>
-            <port>8080</port>
+            <port>8085</port>
             <path>/</path>
           </configuration>
           <version>2.2</version>

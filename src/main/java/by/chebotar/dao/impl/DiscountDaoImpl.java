@@ -1,6 +1,7 @@
 package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
+import by.chebotar.dao.DiscountDao;
 import by.chebotar.dao.GenericDao;
 import by.chebotar.domain.Discount;
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscountDaoImpl extends AbstractJdbcDao<Discount, Integer> implements GenericDao<Discount,Integer> {
+public class DiscountDaoImpl extends AbstractJdbcDao<Discount, Integer> implements DiscountDao {
 
 private static final String SELECT_ALL_QUERY = "SELECT * FROM discount";
 private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM discount WHERE id = ?";

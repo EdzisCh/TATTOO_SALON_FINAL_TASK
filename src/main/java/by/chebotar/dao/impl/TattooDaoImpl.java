@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.TattooDao;
 import by.chebotar.dao.exception.ConnectionPoolException;
 import by.chebotar.domain.Tattoo;
 import java.sql.PreparedStatement;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TattooDaoImpl extends AbstractJdbcDao<Tattoo, Integer> implements GenericDao<Tattoo, Integer> {
+public class TattooDaoImpl extends AbstractJdbcDao<Tattoo, Integer> implements TattooDao {
 
     private static final String SELECT_ALL_QUERY = "SELECT * FROM tattoo";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM tattoo WHERE id = ?";

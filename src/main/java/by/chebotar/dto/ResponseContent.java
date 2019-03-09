@@ -11,4 +11,8 @@ public class ResponseContent {
     public Router getRouter() {
         return router;
     }
+
+    public void setRouter(Router router) {
+        this.router = router;
+    }
 }

@@ -10,6 +10,9 @@ import java.io.IOException;
 public class CommandLogOut implements Command {
     @Override
     public ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return null;
+        request.getSession().invalidate();
+        ResponseContent responseContent = new ResponseContent();
+        responseContent.setRouter(new Router("/",Router.Type.FORWARD));
+        return responseContent;
     }
 }

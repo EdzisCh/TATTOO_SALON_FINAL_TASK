@@ -4,6 +4,6 @@
     <title>Tattoo</title>
 </head>
 <body>
-<jsp:forward page="LogIn.jsp"/>
+<jsp:forward page="../WEB-INF/jsp/login.jsp"/>
 </body>
 </html>

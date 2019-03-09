@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.UserFeedbackDao;
 import by.chebotar.domain.UserFeedback;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserFeedbackDaoImpl extends AbstractJdbcDao<UserFeedback, Integer> implements GenericDao<UserFeedback, Integer> {
+public class UserFeedbackDaoImpl extends AbstractJdbcDao<UserFeedback, Integer> implements UserFeedbackDao {
 
     private static final String SELECT_ALL_QUERY = "SELECT * FROM user_feedback";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user_feedback WHERE id = ?";

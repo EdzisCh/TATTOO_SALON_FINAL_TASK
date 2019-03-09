@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns="/", name="index")
+@WebServlet(urlPatterns={"/index"}, name="index")
 public class FrontController extends HttpServlet {
 
     private static Logger LOGGER = LogManager.getLogger(FrontController.class);

@@ -11,7 +11,8 @@ public enum CommandType {
     DELETE_USER,
     SHOW_EMPTY_PAGE,
     LOG_IN,
-    LOG_OUT;
+    LOG_OUT,
+    GET_LOG_IN_PAGE;
 
     public static Optional<CommandType> of(String name) {
         return Stream.of(CommandType.values()).filter(type -> type.name().equalsIgnoreCase(name)).findFirst();

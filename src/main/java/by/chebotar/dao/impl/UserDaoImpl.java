@@ -1,8 +1,8 @@
 package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
-import by.chebotar.dao.GenericDao;
-import by.chebotar.dao.exception.ConnectionPoolException;
+import by.chebotar.dao.UserDao;
+import by.chebotar.dao.exception.DaoException;
 import by.chebotar.domain.User;
 
 import java.sql.PreparedStatement;
@@ -14,10 +14,11 @@ import java.util.List;
 /**
  * Example User DAO implementation
  */
-public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements GenericDao<User, Integer> {
+public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserDao {
 
     private static final String SELECT_ALL_QUERY = "SELECT * FROM user";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user WHERE id=?";
+    private static final String SELECT_USER_BY_LOGIN_QUERY = "SELECT * FROM user WHERE login=?";
     private static final String INSERT_NEW_QUERY = "INSERT INTO user (login, first_name, last_name," +
             " password, email) VALUES ( ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE user SET login=?, first_name=?, last_name=?, " +
@@ -84,5 +85,22 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements Gener
     @Override
     public String getSelectByPKQuery(){
         return SELECT_USER_BY_PK_QUERY;
+    }
+
+    public String getSelectUserByLoginQuery() {return SELECT_USER_BY_LOGIN_QUERY;}
+
+    @Override
+    public void register(User user) {
+
+    }
+
+    @Override
+    public User logIn(User user) throws DaoException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(getSelectUserByLoginQuery())){
+            preparedStatement.setString(1, user.getLogin());
+            return parseResultSet(preparedStatement.executeQuery()).get(0);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 }

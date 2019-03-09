@@ -2,6 +2,7 @@ package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
 import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.RoleDao;
 import by.chebotar.domain.Role;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoleDaoImpl extends AbstractJdbcDao<Role, Integer> implements GenericDao<Role, Integer> {
+public class RoleDaoImpl extends AbstractJdbcDao<Role, Integer> implements RoleDao {
 
 private static final String SELECT_ALL_QUERY = "SELECT * FROM role";
 private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM role WHERE id = ?";

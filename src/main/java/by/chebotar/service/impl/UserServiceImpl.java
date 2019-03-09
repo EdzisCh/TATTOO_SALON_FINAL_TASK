@@ -1,10 +1,9 @@
 package by.chebotar.service.impl;
 
-import by.chebotar.dao.DaoFactoryType;
-import by.chebotar.dao.FactoryProducer;
-import by.chebotar.dao.GenericDao;
+import by.chebotar.dao.UserDao;
 import by.chebotar.dao.exception.DaoException;
 import by.chebotar.dao.exception.PersistException;
+import by.chebotar.dao.impl.JdbcDaoFactory;
 import by.chebotar.domain.User;
 import by.chebotar.service.UserService;
 import by.chebotar.service.exception.ServiceException;
@@ -21,21 +20,15 @@ import java.util.List;
  */
 public class UserServiceImpl implements UserService {
 
+    //TODO VALIDATION
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
-    private GenericDao<User,Integer> userDao;
 
-    public UserServiceImpl() throws ServiceException {
-        try {
-            userDao = FactoryProducer.getDaoFactory(DaoFactoryType.JDBC).getDao(User.class);
-        } catch (DaoException e) {
-            throw new ServiceException("Failed to get userDao", e);
-        }
-    }
 
     @Override
     public User signUp(User user) throws ServiceException {
         try {
-            return userDao.getByPK(user.getId());
+            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
+            return userDao.logIn(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -43,10 +36,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) throws ServiceException {
-        user.setPassword(encryptPassSHA256(user));
         try {
+            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
+            user.setPassword(encryptPassSHA256(user));
             return userDao.persist(user);
-        } catch (PersistException e) {
+        } catch (PersistException | DaoException e) {
             throw new ServiceException();
         }
     }
@@ -54,6 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(int id) throws ServiceException {
         try {
+            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
             return userDao.getByPK(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -62,13 +57,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByLogin(String login) throws ServiceException {
-        List<User> users;
         try {
-             users = userDao.getAll();
+            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
+            List<User> users = userDao.getAll();
+            return getUserFromDBByLogin(login, users);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return getUserFromDBByLogin(login, users);
+
     }
 
     private User getUserFromDBByLogin(String login, List<User> users){
@@ -83,6 +79,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(User user) throws ServiceException {
         try {
+            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
             userDao.delete(user);
         } catch (DaoException e) {
             throw new ServiceException(e);

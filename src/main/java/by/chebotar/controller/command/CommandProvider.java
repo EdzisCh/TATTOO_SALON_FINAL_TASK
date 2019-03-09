@@ -17,7 +17,12 @@ public class CommandProvider {
         commandMap.put(CommandType.VIEW_USER_DETAILS, new CommandViewUserDetails());
         commandMap.put(CommandType.DELETE_USER, new CommandDeleteUser());
         commandMap.put(CommandType.VIEW_USER_LIST, new CommandViewUserList());
+        commandMap.put(CommandType.LOG_IN, new CommandLogIn());
+        commandMap.put(CommandType.LOG_OUT, new CommandLogOut());
+        commandMap.put(CommandType.SHOW_EMPTY_PAGE, new CommandGetEmptyPage());
+        commandMap.put(CommandType.GET_LOG_IN_PAGE, new CommandGetLoginPage());
     }
+
 
     /**
      * Return command by name
