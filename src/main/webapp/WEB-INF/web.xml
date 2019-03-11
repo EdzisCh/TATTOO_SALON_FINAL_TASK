@@ -12,7 +12,7 @@
     <welcome-file>/jsp/index.jsp</welcome-file>
   </welcome-file-list>  
   <error-page>
-    <location>/jsp/errorPage.jsp</location>
+    <location>/WEB-INF/jsp/errorPage.jsp</location>
   </error-page>
   <servlet-mapping>
     <servlet-name>default</servlet-name>

@@ -18,11 +18,11 @@ public class CommandLogIn implements Command {
 
         UserService userService = ServiceFactory.getInstance().getUserService();
 
-        String login = request.getParameter("login");
+        String login = request.getParameter("email");
         String pass = request.getParameter("password");
         User user = new User();
 
-        user.setLogin(login);
+        user.setEmail(login);
 
         try {
             user = userService.signUp(user);

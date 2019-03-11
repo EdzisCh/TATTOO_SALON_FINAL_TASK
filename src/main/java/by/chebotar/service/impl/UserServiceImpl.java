@@ -1,5 +1,8 @@
 package by.chebotar.service.impl;
 
+import by.chebotar.dao.DaoFactory;
+import by.chebotar.dao.DaoFactoryType;
+import by.chebotar.dao.FactoryProducer;
 import by.chebotar.dao.UserDao;
 import by.chebotar.dao.exception.DaoException;
 import by.chebotar.dao.exception.PersistException;
@@ -26,8 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signUp(User user) throws ServiceException {
+        DaoFactory daoFactory = FactoryProducer.getDaoFactory(DaoFactoryType.JDBC);
         try {
-            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
+            UserDao userDao = (UserDao) daoFactory.getDao(User.class);
             return userDao.logIn(user);
         } catch (DaoException e) {
             throw new ServiceException(e);

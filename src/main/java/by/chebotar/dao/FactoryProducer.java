@@ -1,6 +1,7 @@
 package by.chebotar.dao;
 
-import java.util.Optional;
+import by.chebotar.dao.impl.JdbcDaoFactory;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,7 +13,9 @@ public class FactoryProducer {
     private static FactoryProducer instance;
     private Lock instanceLock = new ReentrantLock();
 
-    private FactoryProducer() {}
+    private FactoryProducer() {
+
+    }
 
     public FactoryProducer getInstance() {
         FactoryProducer localInstance = instance;
@@ -28,6 +31,11 @@ public class FactoryProducer {
     }
 
     public static DaoFactory getDaoFactory(DaoFactoryType name) {
-        return null;
+        switch (name){
+            case JDBC:
+                return  JdbcDaoFactory.getInstance();
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 }

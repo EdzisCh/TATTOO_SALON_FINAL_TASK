@@ -1,9 +1,12 @@
 package by.chebotar.dao.impl;
 
 import by.chebotar.dao.AbstractJdbcDao;
+import by.chebotar.dao.AutoConnection;
 import by.chebotar.dao.UserDao;
 import by.chebotar.dao.exception.DaoException;
 import by.chebotar.domain.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +19,10 @@ import java.util.List;
  */
 public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserDao {
 
+    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
     private static final String SELECT_ALL_QUERY = "SELECT * FROM user";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user WHERE id=?";
-    private static final String SELECT_USER_BY_LOGIN_QUERY = "SELECT * FROM user WHERE login=?";
+    private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM tattoo_parlor.user WHERE email=?";
     private static final String INSERT_NEW_QUERY = "INSERT INTO user (login, first_name, last_name," +
             " password, email) VALUES ( ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE user SET login=?, first_name=?, last_name=?, " +
@@ -87,19 +91,22 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
         return SELECT_USER_BY_PK_QUERY;
     }
 
-    public String getSelectUserByLoginQuery() {return SELECT_USER_BY_LOGIN_QUERY;}
+    public String getSelectUserByEmailQuery() {return SELECT_USER_BY_EMAIL_QUERY;}
 
     @Override
+    @AutoConnection
     public void register(User user) {
 
     }
 
     @Override
+    @AutoConnection
     public User logIn(User user) throws DaoException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(getSelectUserByLoginQuery())){
-            preparedStatement.setString(1, user.getLogin());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(getSelectUserByEmailQuery())){
+            preparedStatement.setString(1, user.getEmail());
             return parseResultSet(preparedStatement.executeQuery()).get(0);
         } catch (SQLException e) {
+            LOGGER.error(e);
             throw new DaoException(e);
         }
     }
