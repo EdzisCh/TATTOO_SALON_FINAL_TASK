@@ -41,7 +41,8 @@ public class CommandLogIn implements Command {
         if (user != null && role != Role.INCORRECT){
             session.setAttribute("userLogin", user.getLogin());
 
-            if (role.equals("Admin")){
+            if (role == Role.ADMIN){
+                session.setAttribute("isAdmin", true);
                 return CommandProvider.getInstance().takeCommand(CommandType.GET_ADMIN_PAGE).execute(request, response);
             } else {
                 return CommandProvider.getInstance().takeCommand(CommandType.SHOW_EMPTY_PAGE).execute(request, response);
