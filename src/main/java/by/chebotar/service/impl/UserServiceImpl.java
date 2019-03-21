@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
         DaoFactory daoFactory = FactoryProducer.getDaoFactory(DaoFactoryType.JDBC);
         try {
             UserDao userDao = (UserDao) daoFactory.getDao(User.class);
+            user.setPassword(encryptPassSHA256(user));
             return userDao.logIn(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -47,6 +48,11 @@ public class UserServiceImpl implements UserService {
         } catch (PersistException | DaoException e) {
             throw new ServiceException();
         }
+    }
+
+    @Override
+    public int registerAndGetId(User user) throws ServiceException {
+        return register(user).getId();
     }
 
     @Override
@@ -69,6 +75,16 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException();
         }
 
+    }
+
+    @Override
+    public List<User> getAll() throws DaoException {
+        try {
+            UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
+            return userDao.getAll();
+        } catch (DaoException e) {
+            throw new DaoException(e);
+        }
     }
 
     private User getUserFromDBByLogin(String login, List<User> users){

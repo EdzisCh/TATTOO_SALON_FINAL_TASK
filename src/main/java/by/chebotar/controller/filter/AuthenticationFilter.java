@@ -1,5 +1,7 @@
 package by.chebotar.controller.filter;
 
+import by.chebotar.domain.User;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletResponse;
@@ -11,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/ ")
+@WebFilter(filterName = "authenticationFilter" /*, urlPatterns = {"/index"}*/)
 public class AuthenticationFilter implements Filter {
 
     @Override
@@ -23,9 +25,14 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         HttpServletResponse httpServletResponse = (HttpServletResponse)response;
-
-
-
+        /*User user = (User) httpServletRequest.getSession().getAttribute("user");
+        if (user != null){
+            httpServletRequest.getRequestDispatcher("../jsp/main.jsp")
+                    .forward(httpServletRequest,httpServletResponse);
+        } else {
+            httpServletRequest.getRequestDispatcher("../jsp/login.jsp")
+                    .forward(httpServletRequest,httpServletResponse);
+        }*/
         chain.doFilter(request, response);
     }
 

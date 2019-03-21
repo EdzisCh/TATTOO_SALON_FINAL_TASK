@@ -22,7 +22,7 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
     private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
     private static final String SELECT_ALL_QUERY = "SELECT * FROM user";
     private static final String SELECT_USER_BY_PK_QUERY = "SELECT * FROM user WHERE id=?";
-    private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM tattoo_parlor.user WHERE email=?";
+    private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email=?";
     private static final String INSERT_NEW_QUERY = "INSERT INTO user (login, first_name, last_name," +
             " password, email) VALUES ( ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE user SET login=?, first_name=?, last_name=?, " +
@@ -41,6 +41,7 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
            user.setLast_name(rs.getString(4));
            user.setPassword(rs.getString(5));
            user.setEmail(rs.getString(6));
+           userList.add(user);
        }
        return userList;
     }
@@ -91,20 +92,41 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
         return SELECT_USER_BY_PK_QUERY;
     }
 
-    public String getSelectUserByEmailQuery() {return SELECT_USER_BY_EMAIL_QUERY;}
+    public String getSelectUserByEmailQuery() {
+        return SELECT_USER_BY_EMAIL_QUERY;
+    }
 
     @Override
     @AutoConnection
-    public void register(User user) {
-
+    public void register(User user) throws DaoException {
+        try(PreparedStatement preparedStatement = connection.prepareStatement(getCreateQuery())){
+            preparedStatement.setString(1,user.getLogin());
+            preparedStatement.setString(2,user.getFirst_name());
+            preparedStatement.setString(3,user.getLast_name());
+            preparedStatement.setString(4,user.getPassword());
+            preparedStatement.setString(5,user.getEmail());
+            parseResultSet(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new DaoException(e);
+        }
     }
 
+    //TODO More beautiful empty list handling
     @Override
     @AutoConnection
     public User logIn(User user) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(getSelectUserByEmailQuery())){
             preparedStatement.setString(1, user.getEmail());
-            return parseResultSet(preparedStatement.executeQuery()).get(0);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<User> listOfUsers = parseResultSet(resultSet);
+            if (listOfUsers.isEmpty()){
+                User incorrectUser = new User();
+                incorrectUser.setId(1);
+                return incorrectUser;
+            }
+            User userFromDB = listOfUsers.get(0);
+            return userFromDB;
         } catch (SQLException e) {
             LOGGER.error(e);
             throw new DaoException(e);

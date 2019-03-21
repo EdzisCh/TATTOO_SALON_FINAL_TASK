@@ -34,7 +34,7 @@ public class RoleDaoImplTest {
             abstractJdbcDao = (AbstractJdbcDao) JdbcDaoFactory.getInstance().getTransactionalDao(Role.class);
             roleDao = JdbcDaoFactory.getInstance().getDao(Role.class);
             userDao = JdbcDaoFactory.getInstance().getDao(User.class);
-            role = Role.Client;
+            role = Role.CLIENT;
             user = new User();
             user.setId(1);
             user.setFirst_name("name");

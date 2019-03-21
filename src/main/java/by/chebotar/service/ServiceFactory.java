@@ -1,5 +1,6 @@
 package by.chebotar.service;
 
+import by.chebotar.service.impl.RoleServiceImpl;
 import by.chebotar.service.impl.UserServiceImpl;
 
 /**
@@ -8,10 +9,12 @@ import by.chebotar.service.impl.UserServiceImpl;
 public class ServiceFactory {
 
     private final UserService userService;
+    private final RoleService roleService;
     private static ServiceFactory instance = new ServiceFactory();
 
     private ServiceFactory(){
         userService = new UserServiceImpl();
+        roleService = new RoleServiceImpl();
     }
 
     public static ServiceFactory getInstance() {
@@ -20,5 +23,9 @@ public class ServiceFactory {
 
     public UserService getUserService(){
         return userService;
+    }
+
+    public RoleService getRoleService() {
+        return roleService;
     }
 }

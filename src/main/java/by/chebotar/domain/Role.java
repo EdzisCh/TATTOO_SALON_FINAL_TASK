@@ -3,9 +3,10 @@ package by.chebotar.domain;
 import by.chebotar.dao.Identified;
 
 public enum Role implements Identified<Integer> {
-    Client(1),
-    Master(2),
-    Admin(3);
+    CLIENT(1),
+    MASTER(2),
+    ADMIN(3),
+    INCORRECT(4);
 
     private int id;
     private int idUser;
