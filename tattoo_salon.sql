@@ -1,8 +1,5 @@
-CREATE DATABASE IF NOT EXISTS tattoo_parlor;
-USE tattoo_parlor;
-
-CREATE TABLE IF NOT EXISTS tattoo_parlor.user(
- id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS user(
+ id INT  NOT NULL AUTO_INCREMENT,
  login VARCHAR(45) NOT NULL,
  first_name VARCHAR(45) NOT NULL,
  last_name VARCHAR(45) NOT NULL,
@@ -10,90 +7,90 @@ CREATE TABLE IF NOT EXISTS tattoo_parlor.user(
  email VARCHAR(45) NOT NULL,
  PRIMARY KEY (id));
 
-CREATE TABLE IF NOT EXISTS tattoo_parlor.user_feedback (
+CREATE TABLE IF NOT EXISTS user_feedback (
   id INT NOT NULL AUTO_INCREMENT,
   feedback LONGTEXT NOT NULL,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT  NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_user_feedback_user1
     FOREIGN KEY (user_id)
-      REFERENCES tattoo_parlor.user (id)
+      REFERENCES user (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE);
 
-CREATE TABLE IF NOT EXISTS tattoo_parlor.tattoo(
+CREATE TABLE IF NOT EXISTS tattoo(
   id INT NOT NULL AUTO_INCREMENT,
   photo LONGBLOB NOT NULL,
   description MEDIUMTEXT NOT NULL,
   price FLOAT NOT NULL,
   creation_date DATETIME NOT NULL,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT  NOT NULL,
   user_feedback_id INT NOT NULL,
   PRIMARY KEY (id, user_id),
   CONSTRAINT fk_tattoo_user1
     FOREIGN KEY (user_id)
-      REFERENCES tattoo_parlor.user(id)
+      REFERENCES user (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE ,
   CONSTRAINT fk_tattoo_user_feedback1
     FOREIGN KEY (user_feedback_id)
-      REFERENCES tattoo_parlor.user_feedback (id)
+      REFERENCES user_feedback (id)
       ON DELETE CASCADE
     ON UPDATE CASCADE );
 
-CREATE TABLE IF NOT EXISTS tattoo_parlor.tattoo_order(
+CREATE TABLE IF NOT EXISTS tattoo_order(
   id INT NOT NULL AUTO_INCREMENT,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT  NOT NULL,
   tattoo_id INT NOT NULL,
   price FLOAT NOT NULL,
   date DATETIME NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_order_user1
     FOREIGN KEY (user_id)
-    REFERENCES tattoo_parlor.user (id)
+    REFERENCES user (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   CONSTRAINT fk_order_tattoo1
     FOREIGN KEY (tattoo_id)
-      REFERENCES tattoo_parlor.tattoo (id)
+      REFERENCES tattoo (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE);
 
-CREATE TABLE IF NOT EXISTS .discount (
+CREATE TABLE IF NOT EXISTS discount (
   id INT NOT NULL AUTO_INCREMENT,
   description MEDIUMTEXT NOT NULL,
   percents TINYINT(100) NOT NULL,
   PRIMARY KEY (id));
 
-CREATE TABLE IF NOT EXISTS tattoo_parlor.user_discount (
+CREATE TABLE IF NOT EXISTS user_discount (
   id INT NOT NULL AUTO_INCREMENT,
   discount_id INT NOT NULL,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT  NOT NULL,
   tattoo_order_id INT NOT NULL,
   PRIMARY KEY (id, discount_id),
   CONSTRAINT fk_user_discount_discount1
   FOREIGN KEY (discount_id)
-    REFERENCES tattoo_parlor.discount (id)
+    REFERENCES discount (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   CONSTRAINT fk_user_discount_user1
   FOREIGN KEY (user_id)
-    REFERENCES tattoo_parlor.user (id)
+    REFERENCES user (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE ,
   CONSTRAINT fk_user_discount_tattoo_order1
     FOREIGN KEY (tattoo_order_id)
-      REFERENCES tattoo_parlor.tattoo_order (id)
+      REFERENCES tattoo_order (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE);
 
-CREATE TABLE IF NOT EXISTS tattoo_parlor.role(
+CREATE TABLE IF NOT EXISTS role(
   id INT NOT NULL AUTO_INCREMENT,
   role ENUM('client', 'master', 'admin') NOT NULL,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT  NOT NULL,
   PRIMARY KEY (id, user_id),
   CONSTRAINT fk_status_user1
     FOREIGN KEY (user_id)
-      REFERENCES tattoo_parlor.user (id)
+      REFERENCES user (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE);
