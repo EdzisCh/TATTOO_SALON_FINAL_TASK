@@ -1,4 +1,4 @@
-package by.chebotar.controller.command;
+package by.chebotar.command;
 
 /**
  * Provide route to jsp page

@@ -1,4 +1,4 @@
-package by.chebotar.service.impl;
+package by.chebotar.validator.impl;
 
 public class UserValidatorImpl {
 }

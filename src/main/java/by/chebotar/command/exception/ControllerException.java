@@ -1,4 +1,4 @@
-package by.chebotar.controller.exception;
+package by.chebotar.command.exception;
 
 public class ControllerException extends RuntimeException{
 

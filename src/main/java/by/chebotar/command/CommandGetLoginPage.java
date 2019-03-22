@@ -1,4 +1,4 @@
-package by.chebotar.controller.command;
+package by.chebotar.command;
 
 import by.chebotar.dto.ResponseContent;
 
@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CommandViewUserDetails implements Command {
+public class CommandGetLoginPage implements Command{
     @Override
     public ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return null;
+        return CommandProvider.getInstance().takeCommand(CommandType.LOG_IN).execute(request,response);
     }
 }

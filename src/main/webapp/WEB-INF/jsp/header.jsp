@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="by.chebotar.controller.command.CommandType" %>
+<%@page import="by.chebotar.command.CommandType" %>
 <aside style="background-color: whitesmoke">
     <jsp:include page="head.jsp"/>
         <!-- Header-->

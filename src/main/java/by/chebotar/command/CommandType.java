@@ -1,4 +1,4 @@
-package by.chebotar.controller.command;
+package by.chebotar.command;
 
 import java.util.Optional;
 import java.util.stream.Stream;

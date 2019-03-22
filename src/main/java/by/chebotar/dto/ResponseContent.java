@@ -1,6 +1,6 @@
 package by.chebotar.dto;
 
-import by.chebotar.controller.command.Router;
+import by.chebotar.command.Router;
 
 /**
  * Provide response content to View layer

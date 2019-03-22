@@ -1,4 +1,4 @@
-package by.chebotar.controller.command;
+package by.chebotar.command;
 
 import by.chebotar.domain.Role;
 import by.chebotar.domain.User;

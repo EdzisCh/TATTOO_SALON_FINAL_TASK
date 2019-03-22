@@ -1,14 +1,10 @@
 package by.chebotar.controller;
 
-import by.chebotar.controller.command.Command;
-import by.chebotar.controller.command.CommandProvider;
-import by.chebotar.controller.command.CommandType;
-import by.chebotar.controller.command.Router;
-import by.chebotar.controller.exception.ControllerException;
+import by.chebotar.command.Command;
+import by.chebotar.command.CommandProvider;
+import by.chebotar.command.CommandType;
+import by.chebotar.command.Router;
 import by.chebotar.dto.ResponseContent;
-import by.chebotar.service.UserService;
-import by.chebotar.service.exception.ServiceException;
-import by.chebotar.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package by.chebotar.controller.listener;
+package by.chebotar.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

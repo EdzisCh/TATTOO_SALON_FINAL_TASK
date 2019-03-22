@@ -1,4 +1,4 @@
-package by.chebotar.controller.command;
+package by.chebotar.command;
 
 import by.chebotar.dao.exception.DaoException;
 import by.chebotar.domain.User;

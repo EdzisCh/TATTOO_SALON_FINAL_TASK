@@ -1,6 +1,4 @@
-package by.chebotar.controller.filter;
-
-import by.chebotar.domain.User;
+package by.chebotar.filter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;

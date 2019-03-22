@@ -1,4 +1,4 @@
-package by.chebotar.controller.command;
+package by.chebotar.command;
 
 import java.util.HashMap;
 import java.util.Map;

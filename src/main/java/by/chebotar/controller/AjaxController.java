@@ -1,8 +1,8 @@
 package by.chebotar.controller;
 
-import by.chebotar.controller.command.Command;
-import by.chebotar.controller.command.CommandProvider;
-import by.chebotar.controller.command.CommandType;
+import by.chebotar.command.Command;
+import by.chebotar.command.CommandProvider;
+import by.chebotar.command.CommandType;
 import by.chebotar.dto.ResponseContent;
 
 import javax.servlet.ServletException;
