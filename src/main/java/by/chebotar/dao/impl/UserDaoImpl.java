@@ -37,8 +37,8 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
            User user = new User();
            user.setId(rs.getInt(1));
            user.setLogin(rs.getString(2));
-           user.setFirst_name(rs.getString(3));
-           user.setLast_name(rs.getString(4));
+           user.setFirstName(rs.getString(3));
+           user.setLastName(rs.getString(4));
            user.setPassword(rs.getString(5));
            user.setEmail(rs.getString(6));
            userList.add(user);
@@ -61,8 +61,8 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
     protected void prepareStatement(PreparedStatement statement, User object) throws SQLException {
         int counter = 1;
         statement.setString(counter++,object.getLogin());
-        statement.setString(counter++,object.getFirst_name());
-        statement.setString(counter++,object.getLast_name());
+        statement.setString(counter++,object.getFirstName());
+        statement.setString(counter++,object.getLastName());
         statement.setString(counter++,object.getPassword());
         statement.setString(counter,object.getEmail());
     }
@@ -101,8 +101,8 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
     public void register(User user) throws DaoException {
         try(PreparedStatement preparedStatement = connection.prepareStatement(getCreateQuery())){
             preparedStatement.setString(1,user.getLogin());
-            preparedStatement.setString(2,user.getFirst_name());
-            preparedStatement.setString(3,user.getLast_name());
+            preparedStatement.setString(2,user.getFirstName());
+            preparedStatement.setString(3,user.getLastName());
             preparedStatement.setString(4,user.getPassword());
             preparedStatement.setString(5,user.getEmail());
             parseResultSet(preparedStatement.executeQuery());
@@ -122,7 +122,7 @@ public class UserDaoImpl extends AbstractJdbcDao<User, Integer> implements UserD
             List<User> listOfUsers = parseResultSet(resultSet);
             if (listOfUsers.isEmpty()){
                 User incorrectUser = new User();
-                incorrectUser.setId(1);
+                incorrectUser.setId(0);
                 return incorrectUser;
             }
             User userFromDB = listOfUsers.get(0);

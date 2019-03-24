@@ -13,8 +13,7 @@ public enum CommandType {
     LOG_IN,
     LOG_OUT,
     GET_LOG_IN_PAGE,
-    GET_REGISTRATION_PAGE,
-    GET_ADMIN_PAGE;
+    GET_REGISTRATION_PAGE;
 
     public static Optional<CommandType> of(String name) {
         return Stream.of(CommandType.values()).filter(type -> type.name().equalsIgnoreCase(name)).findFirst();

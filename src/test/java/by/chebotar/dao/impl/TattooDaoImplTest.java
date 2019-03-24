@@ -45,8 +45,8 @@ public class TattooDaoImplTest {
             userFeedbackDao = JdbcDaoFactory.getInstance().getDao(UserFeedback.class);
             user = new User();
             user.setId(2);
-            user.setFirst_name("name");
-            user.setLast_name("surname");
+            user.setFirstName("name");
+            user.setLastName("surname");
             user.setLogin("login");
             user.setPassword("password");
             user.setEmail("mail@mail.ru");

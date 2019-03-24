@@ -1,12 +1,10 @@
 package by.chebotar.service.impl;
 
-import by.chebotar.dao.DaoFactory;
-import by.chebotar.dao.DaoFactoryType;
-import by.chebotar.dao.FactoryProducer;
-import by.chebotar.dao.UserDao;
+import by.chebotar.dao.*;
 import by.chebotar.dao.exception.DaoException;
 import by.chebotar.dao.exception.PersistException;
 import by.chebotar.dao.impl.JdbcDaoFactory;
+import by.chebotar.domain.Role;
 import by.chebotar.domain.User;
 import by.chebotar.service.UserService;
 import by.chebotar.service.exception.ServiceException;
@@ -43,6 +41,8 @@ public class UserServiceImpl implements UserService {
     public User register(User user) throws ServiceException {
         try {
             UserDao userDao = (UserDao) JdbcDaoFactory.getInstance().getDao(User.class);
+            RoleDao roleDao = (RoleDao) JdbcDaoFactory.getInstance().getDao(Role.class);
+            roleDao.setRole(Role.CLIENT);
             user.setPassword(encryptPassSHA256(user));
             return userDao.persist(user);
         } catch (PersistException | DaoException e) {

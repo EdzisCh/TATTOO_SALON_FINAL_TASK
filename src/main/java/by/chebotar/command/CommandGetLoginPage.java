@@ -10,6 +10,8 @@ import java.io.IOException;
 public class CommandGetLoginPage implements Command{
     @Override
     public ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return CommandProvider.getInstance().takeCommand(CommandType.LOG_IN).execute(request,response);
+        ResponseContent responseContent = new ResponseContent();
+        responseContent.setRouter(new Router("/jsp/index.jsp", Router.Type.FORWARD));
+        return responseContent;
     }
 }

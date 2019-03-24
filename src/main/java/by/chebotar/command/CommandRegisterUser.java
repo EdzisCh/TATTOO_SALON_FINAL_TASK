@@ -32,8 +32,8 @@ public class CommandRegisterUser implements Command {
             newUser.setLogin(login);
             newUser.setPassword(password);
             newUser.setEmail(email);
-            newUser.setFirst_name(firstName);
-            newUser.setLast_name(secondName);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(secondName);
             int id = userService.registerAndGetId(newUser);
             role = Role.CLIENT;
             role.setIdUser(id);

@@ -29,21 +29,27 @@ public class CommandLogIn implements Command {
         user.setEmail(email);
         user.setPassword(pass);
 
+        HttpSession session = request.getSession();
+
         try {
             user = userService.signUp(user);
-            role = roleService.getRoleById(user.getId());
+            if (user.getId() == 0) {
+                role = Role.INCORRECT;
+            } else {
+                role = roleService.getRoleById(user.getId());
+            }
         } catch (ServiceException e) {
+            session.setAttribute("incorrectData", true);
             return CommandProvider.getInstance().takeCommand(CommandType.LOG_IN).execute(request,response);
         }
 
-        HttpSession session = request.getSession();
 
         if (user != null && role != Role.INCORRECT){
             session.setAttribute("userLogin", user.getLogin());
 
             if (role == Role.ADMIN){
                 session.setAttribute("isAdmin", true);
-                return CommandProvider.getInstance().takeCommand(CommandType.GET_ADMIN_PAGE).execute(request, response);
+                return CommandProvider.getInstance().takeCommand(CommandType.SHOW_EMPTY_PAGE).execute(request, response);
             } else {
                 return CommandProvider.getInstance().takeCommand(CommandType.SHOW_EMPTY_PAGE).execute(request, response);
             }

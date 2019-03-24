@@ -34,8 +34,8 @@ public class UserDaoImplTest {
             userDao = JdbcDaoFactory.getInstance().getDao(User.class);
             user = new User();
             user.setId(3);
-            user.setFirst_name("name");
-            user.setLast_name("surname");
+            user.setFirstName("name");
+            user.setLastName("surname");
             user.setLogin("login");
             user.setPassword("password");
             user.setEmail("mail@mail.ru");

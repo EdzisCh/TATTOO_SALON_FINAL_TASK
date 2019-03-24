@@ -35,9 +35,6 @@
                                 <input type="password" pattern="(\w|\d|-){1,35}" name="password" class="form-control" placeholder="1234">
                             </div>
                             <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Remember Me
-                                </label>
                                 <label class="pull-right">
                                     <a href="#">Forgotten Password?</a>
                                 </label>

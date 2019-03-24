@@ -18,7 +18,7 @@
         <c:if test="${sessionScope.userLogin != null}">
         <div class="col-sm-12">
             <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                <span class="badge badge-pill badge-success">Success</span> Welcome to our salon, ${sessionScope.get("userLogin")}!
+                <span class="badge badge-pill badge-success">Success</span> Welcome to our salon, ${sessionScope.userLogin}!
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -29,13 +29,15 @@
         <c:if test="${sessionScope.isAdmin == true}">
             <form name="userList" method="get" action="index">
                 <input type="hidden" name="command" value="${CommandType.VIEW_USER_LIST}">
-            <div class="content mt-3">
+
+                <div class="content mt-3">
                 <div class="animated fadeIn">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <strong class="card-title">User List</strong>
+                                    <strong class="card-title">User List   </strong>
+                                    <button class="btn btn-secondary" type="submit">View</button>
                                 </div>
                                 <div class="card-body">
                                     <table class="table">
@@ -45,34 +47,19 @@
                                             <th scope="col">Email</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Surname</th>
-                                           <%-- <th scope="col">Role</th>--%>
+                                            <th scope="col">Login</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <c:forEach items="${sessionScope.userList}" var="user">
+                                        <c:forEach var="user" items="${sessionScope.userList}">
+                                            <tr>
+                                                <th scope="row"><c:out value="${user.getId()}"/></th>
                                                 <td><c:out value="${user.getEmail()}"/></td>
-                                            </c:forEach>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <c:forEach items="${sessionScope.userList}" var="user">
-                                                <td><c:out value="${user.getName()}"/></td>
-                                            </c:forEach>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <c:forEach items="${sessionScope.userList}" var="user">
-                                                <td><c:out value="${user.getSurname()}"/></td>
-                                            </c:forEach>
-                                        </tr>
-                                        <%--<tr>
-                                            <th scope="row">4</th>
-                                            <c:forEach items="${sessionScope.userList}" var="user">
-                                                <td><c:out value="${user.getEmail()}"/></td>
-                                            </c:forEach>
-                                        </tr>--%>
+                                                <td><c:out value="${user.getFirstName()}"/></td>
+                                                <td><c:out value="${user.getLastName()}"/></td>
+                                                <td><c:out value="${user.getLogin()}"/></td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -88,3 +75,4 @@
     <jsp:include page="script.jsp"/>
     </body>
 </html>
+

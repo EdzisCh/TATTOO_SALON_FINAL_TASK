@@ -37,8 +37,8 @@ public class RoleDaoImplTest {
             role = Role.CLIENT;
             user = new User();
             user.setId(1);
-            user.setFirst_name("name");
-            user.setLast_name("surname");
+            user.setFirstName("name");
+            user.setLastName("surname");
             user.setLogin("login");
             user.setPassword("password");
             user.setEmail("mail@mail.ru");

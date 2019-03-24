@@ -21,10 +21,10 @@ public class CommandViewUserList implements  Command{
         try {
             List<User> userList = userService.getAll();
             session.setAttribute("userList", userList);
+            return CommandProvider.getInstance().takeCommand(CommandType.SHOW_EMPTY_PAGE).execute(request, response);
         } catch (DaoException e) {
             session.setAttribute("exception", true);
             return CommandProvider.getInstance().takeCommand(CommandType.SHOW_EMPTY_PAGE).execute(request, response);
         }
-        return null;
     }
 }
