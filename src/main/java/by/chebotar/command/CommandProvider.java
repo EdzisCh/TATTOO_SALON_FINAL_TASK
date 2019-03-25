@@ -14,7 +14,7 @@ public class CommandProvider {
 
     private CommandProvider() {
         commandMap.put(CommandType.REGISTER_USER, new CommandRegisterUser());
-        commandMap.put(CommandType.VIEW_USER_DETAILS, new CommandViewUserDetails());
+        commandMap.put(CommandType.GET_CATALOG, new CommandGetCatalog());
         commandMap.put(CommandType.DELETE_USER, new CommandDeleteUser());
         commandMap.put(CommandType.VIEW_USER_LIST, new CommandViewUserList());
         commandMap.put(CommandType.LOG_IN, new CommandLogIn());
@@ -22,6 +22,7 @@ public class CommandProvider {
         commandMap.put(CommandType.SHOW_EMPTY_PAGE, new CommandGetEmptyPage());
         commandMap.put(CommandType.GET_LOG_IN_PAGE, new CommandGetLoginPage());
         commandMap.put(CommandType.GET_REGISTRATION_PAGE, new CommandGetRegistrationPage());
+        commandMap.put(CommandType.MAKE_ORDER, new CommandMakeAnOreder());
     }
 
 

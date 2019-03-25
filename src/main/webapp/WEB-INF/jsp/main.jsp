@@ -70,6 +70,24 @@
             </div>
             </form>
         </c:if>
+
+        <c:if test="${sessionScope.viewCatalog == true}">
+            <c:forEach var="tattoo" items="${sessionScope.tattooList}">
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="${tattoo.getPhoto()}" alt="Tattoo">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">${tattoo.getPrice()}</h4>
+                        <p class="card-text">${tattoo.getDescription()}</p>
+                        <form name="makeOrder" method="post" action="index">
+                            <input type="hidden" name="command" value="${CommandType.MAKE_ORDER}">
+                            <button type="submit" class="btn btn-success">Order It</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </c:forEach>
+        </c:if>
     </div>
 
     <jsp:include page="script.jsp"/>

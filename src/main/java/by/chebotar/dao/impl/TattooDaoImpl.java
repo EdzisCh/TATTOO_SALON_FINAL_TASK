@@ -26,12 +26,13 @@ public class TattooDaoImpl extends AbstractJdbcDao<Tattoo, Integer> implements T
         List<Tattoo> tattooList = new ArrayList<>();
         while (rs.next()){
             Tattoo tattoo = new Tattoo();
-            tattoo.setPhoto(rs.getString(1));
-            tattoo.setDescription(rs.getString(2));
-            tattoo.setPrice(rs.getFloat(3));
-            tattoo.setDateOfCreation(rs.getDate(4));
-            tattoo.setIdUser(rs.getInt(5));
-            tattoo.setIdUserFeedback(rs.getInt(6));
+            tattoo.setId(rs.getInt(1));
+            tattoo.setPhoto(rs.getString(2));
+            tattoo.setDescription(rs.getString(3));
+            tattoo.setPrice(rs.getFloat(4));
+            tattoo.setDateOfCreation(rs.getDate(5));
+            tattoo.setIdUser(rs.getInt(6));
+            tattoo.setIdUserFeedback(rs.getInt(7));
             tattooList.add(tattoo);
         }
         return tattooList;
