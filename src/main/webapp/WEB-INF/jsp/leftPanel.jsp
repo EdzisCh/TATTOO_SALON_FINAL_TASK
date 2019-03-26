@@ -25,7 +25,12 @@
                         <form name="getCatalog" method="GET" action="index">
                             <input type="hidden" name="command" value="${CommandType.GET_CATALOG}">
                             <button class="btn btn-secondary" type="submit">Catalog</button>
-                        <%--<li><i type="submit" class="menu-icon fa fa-sign-in"></i><a href="#">Catalog</a></li>--%>
+                        </form>
+                    </ul>
+                    <ul class="sub-menu children dropdown-menu">
+                        <form name="logOut" method="post" action="index">
+                            <input type="hidden" name="command" value="${CommandType.LOG_OUT}">
+                            <button class="btn btn-secondary" type="submit">Log out</button>
                         </form>
                     </ul>
                 </li>

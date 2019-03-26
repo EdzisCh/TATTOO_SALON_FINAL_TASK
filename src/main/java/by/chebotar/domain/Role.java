@@ -10,14 +10,23 @@ public enum Role implements Identified<Integer> {
 
     private int id;
     private int idUser;
+    private int roleType;
 
-    Role(int id){
-        this.id = id;
+    Role(int roleType){
+        this.roleType = roleType;
     }
 
     @Override
     public Integer getId() {
         return id;
+    }
+
+    public int getRoleType(){
+        return roleType;
+    }
+
+    public void setRoleType(int roleType){
+        this.roleType = roleType;
     }
 
     public void setId(int id) {

@@ -28,12 +28,14 @@ public class CommandRegisterUser implements Command {
             String email = request.getParameter("email");
             String firstName = request.getParameter("firstName");
             String secondName = request.getParameter("secondName");
+
             newUser = new User();
             newUser.setLogin(login);
             newUser.setPassword(password);
             newUser.setEmail(email);
             newUser.setFirstName(firstName);
             newUser.setLastName(secondName);
+
             int id = userService.registerAndGetId(newUser);
             role = Role.CLIENT;
             role.setIdUser(id);

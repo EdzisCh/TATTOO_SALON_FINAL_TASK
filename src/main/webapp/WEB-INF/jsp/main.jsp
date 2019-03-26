@@ -98,7 +98,7 @@
                 <div class="card">
                     <img class="card-img-top" src="${tattoo.getPhoto()}" alt="Tattoo">
                     <div class="card-body">
-                        <h4 class="card-title mb-3">${tattoo.getPrice()}</h4>
+                        <h4 class="card-title mb-3">${tattoo.getPrice()} BYN</h4>
                         <p class="card-text">${tattoo.getDescription()}</p>
                         <form name="makeOrder" method="post" action="index">
                             <input type="hidden" name="command" value="${CommandType.GET_ORDER_PAGE}"/>
@@ -112,7 +112,7 @@
         </c:if>
 
         <c:if test="${sessionScope.makeOrder == true}">
-        <form action="index" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <form action="index" method="post" name="orderMake" enctype="multipart/form-data" class="form-horizontal">
             <input type="hidden" name="command" value="${CommandType.MAKE_ORDER}"/>
             <div class="col-lg-6">
                 <div class="card">
@@ -129,19 +129,11 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col col-md-3"><label for="email-input" class=" form-control-label">Email Input</label></div>
-                                <div class="col-12 col-md-9"><input type="email" id="email-input" name="email-input" placeholder="Enter Email" class="form-control"><small class="help-block form-text">Please enter your email</small></div>
+                                <div class="col-12 col-md-9"><input type="email" id="email-input" name="email-order" placeholder="Enter Email" class="form-control"><small class="help-block form-text">Please enter your email</small></div>
                             </div>
                             <div class="row form-group">
                                 <div class="col col-md-3"><label for="password-input" class=" form-control-label">Password</label></div>
-                                <div class="col-12 col-md-9"><input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control"><small class="help-block form-text">Please enter a complex password</small></div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="disabled-input" class=" form-control-label">Disabled Input</label></div>
-                                <div class="col-12 col-md-9"><input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled" disabled="" class="form-control"></div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Add some text</label></div>
-                                <div class="col-12 col-md-9"><textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                <div class="col-12 col-md-9"><input type="password" id="password-input" name="password-order" placeholder="Password" class="form-control"><small class="help-block form-text">Please enter a complex password</small></div>
                             </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary btn-sm">
@@ -158,5 +150,3 @@
     <jsp:include page="script.jsp"/>
     </body>
 </html>
-
-ё

@@ -12,7 +12,7 @@ public class CommandLogOut implements Command {
     public ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().invalidate();
         ResponseContent responseContent = new ResponseContent();
-        responseContent.setRouter(new Router("/jsp/index.jsp",Router.Type.REDIRECT));
+        responseContent.setRouter(new Router("/jsp/index.jsp",Router.Type.FORWARD));
         return responseContent;
     }
 }

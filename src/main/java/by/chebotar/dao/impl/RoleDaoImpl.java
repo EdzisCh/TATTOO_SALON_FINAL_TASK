@@ -95,7 +95,7 @@ public class RoleDaoImpl extends AbstractJdbcDao<Role, Integer> implements RoleD
     @AutoConnection
     public void setRole(Role role) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(getCreateQuery())){
-            preparedStatement.setString(1, role.toString());
+            preparedStatement.setString(1, role.name());
             preparedStatement.setInt(2,role.getIdUser());
         } catch (SQLException e) {
             LOGGER.error(e);
