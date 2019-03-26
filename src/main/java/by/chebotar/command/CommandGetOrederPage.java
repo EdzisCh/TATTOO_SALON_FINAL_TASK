@@ -8,11 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CommandMakeAnOreder implements Command {
+public class CommandGetOrederPage implements Command {
     @Override
     public ResponseContent execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-        return null;
+        session.setAttribute("makeOrder", true);
+        session.setAttribute("viewCatalog", false);
+        return CommandProvider.getInstance().takeCommand(CommandType.SHOW_EMPTY_PAGE).execute(request,response);
     }
 }

@@ -14,6 +14,7 @@ public enum CommandType {
     LOG_OUT,
     GET_LOG_IN_PAGE,
     GET_REGISTRATION_PAGE,
+    GET_ORDER_PAGE,
     MAKE_ORDER;
 
     public static Optional<CommandType> of(String name) {

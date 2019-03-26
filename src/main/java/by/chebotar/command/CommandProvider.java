@@ -22,7 +22,8 @@ public class CommandProvider {
         commandMap.put(CommandType.SHOW_EMPTY_PAGE, new CommandGetEmptyPage());
         commandMap.put(CommandType.GET_LOG_IN_PAGE, new CommandGetLoginPage());
         commandMap.put(CommandType.GET_REGISTRATION_PAGE, new CommandGetRegistrationPage());
-        commandMap.put(CommandType.MAKE_ORDER, new CommandMakeAnOreder());
+        commandMap.put(CommandType.GET_ORDER_PAGE, new CommandGetOrederPage());
+        commandMap.put(CommandType.MAKE_ORDER, new CommandMakeAnOrde());
     }
 
 
